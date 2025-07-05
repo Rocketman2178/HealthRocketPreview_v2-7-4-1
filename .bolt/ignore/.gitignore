@@ -1,0 +1,39 @@
+# This file contains patterns for files that should be ignored by Bolt
+# These files will still exist in your project, but won't be loaded into Bolt's context
+
+# Quest-related files
+/src/data/quests/
+/src/lib/quest/
+/src/hooks/useQuestManager.ts
+/src/components/dashboard/quest/
+
+# Rocket customization files
+/src/components/dashboard/rocket/
+/src/styles/rocket-animations.css
+
+# Onboarding files
+/src/components/onboarding/
+/src/lib/onboarding/
+
+# Admin-related files
+/src/components/admin/
+
+# Health-related files
+/src/components/health/
+/src/lib/health/
+
+# Auth-related files
+/src/components/auth/
+
+# Profile-related files
+/src/components/profile/
+
+# Subscription-related files
+/src/components/subscription/
+/src/components/stripe/
+
+# Vital integration files
+/src/components/common/VitalResponePage.tsx
+
+# Unused context providers
+/src/contexts/StripeContext.tsx
