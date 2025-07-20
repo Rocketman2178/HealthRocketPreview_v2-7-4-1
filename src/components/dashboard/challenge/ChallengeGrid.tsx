@@ -1,51 +1,46 @@
-import { useState, useEffect } from 'react';
-import { Award,History, Target } from 'lucide-react';
-import { Card } from '../../ui/card';
-import { ChallengeCard } from './ChallengeCard';
-import { ChallengeLibrary } from './ChallengeLibrary';
-import { CustomChallengeCard } from './CustomChallengeCard';
-import { CompletedChallengesModal } from './CompletedChallengesModal';
-import { useChallengeManager } from '../../../hooks/useChallengeManager';
-import { useCompletedActivities } from '../../../hooks/useCompletedActivities';
-import { useChallengeLibrary } from '../../../hooks/useChallengeLibrary';
-import { useQuestLibrary } from '../../../hooks/useQuestLibrary';
-import { useCustomChallenge } from '../../../hooks/useCustomChallenge';
-import { Quest } from '../../../types/game';
+import { useState, useEffect } from "react";
+import { Award, History, Target } from "lucide-react";
+import { Card } from "../../ui/card";
+import { ChallengeCard } from "./ChallengeCard";
+import { ChallengeLibrary } from "./ChallengeLibrary";
+import { CustomChallengeCard } from "./CustomChallengeCard";
+import { CompletedChallengesModal } from "./CompletedChallengesModal";
+import { useChallengeManager } from "../../../hooks/useChallengeManager";
+import { useCompletedActivities } from "../../../hooks/useCompletedActivities";
+import { useCustomChallenge } from "../../../hooks/useCustomChallenge";
 
 interface ChallengeGridProps {
   userId: string | undefined;
-  categoryScores: Record<string, number>;
 }
 
-export function ChallengeGrid({ userId, categoryScores }: ChallengeGridProps) {
+export function ChallengeGrid({ userId }: ChallengeGridProps) {
   const [showLibrary, setShowLibrary] = useState(false);
   const [showCompletedChallenges, setShowCompletedChallenges] = useState(false);
   const { data: completedActivities } = useCompletedActivities(userId);
-  const { quests } = useQuestLibrary();
-  const { challenges } = useChallengeLibrary();
-  const { hasActiveChallenge, challenge: customChallenge } = useCustomChallenge(userId);
-  const { 
+  const { hasActiveChallenge, challenge: customChallenge } =
+    useCustomChallenge(userId);
+  const {
     activeChallenges,
     loading,
     hasCompletedTier0,
     customChallengeCount,
-    startChallenge, 
+    startChallenge,
     cancelChallenge,
-    fetchActiveChallenges
+    fetchActiveChallenges,
   } = useChallengeManager(userId);
 
   // Add an id to the main div for scrolling
   useEffect(() => {
     // Make sure the element is visible in the DOM when the component mounts
-    const element = document.getElementById('challenges');
+    const element = document.getElementById("challenges");
     if (element) {
       // Force a reflow to ensure the element is properly positioned
       void element.getBoundingClientRect();
     }
-    
+
     // Force refresh active challenges when component mounts
     fetchActiveChallenges();
-    
+
     // Log if we have an active custom challenge
     if (hasActiveChallenge && customChallenge) {
       console.log("Active custom challenge found:", customChallenge.name);
@@ -53,13 +48,8 @@ export function ChallengeGrid({ userId, categoryScores }: ChallengeGridProps) {
   }, [fetchActiveChallenges]);
 
   // Calculate non-premium active challenges count
-  const nonPremiumChallengesCount = activeChallenges.filter(c => 
-    c.category !== 'Contests' && !c.challenge_id.startsWith('custom-')
-  ).length;
-
-  const maxChallenges = 2;
-  const activeChallengeCount = activeChallenges.filter(c => 
-    c.category !== 'Contests'
+  const nonPremiumChallengesCount = activeChallenges.filter(
+    (c) => c.category !== "Contests" && !c.challenge_id.startsWith("custom-")
   ).length;
 
   if (loading && activeChallenges.length === 0) {
@@ -69,9 +59,9 @@ export function ChallengeGrid({ userId, categoryScores }: ChallengeGridProps) {
       </Card>
     );
   }
-  
+
   return (
-    <div  id="challenges" className="space-y-4 scroll-mt-20">
+    <div id="challenges" className="space-y-4 scroll-mt-20">
       <div className="flex items-center justify-between gap-4">
         <h2 className="text-xl font-bold text-white">Challenges</h2>
         <div className="flex items-center gap-4">
@@ -86,27 +76,28 @@ export function ChallengeGrid({ userId, categoryScores }: ChallengeGridProps) {
           </button>
         </div>
       </div>
-      
+
       {/* Active Challenges */}
-      {activeChallenges.filter(c => c.category !== 'Contests').length > 0 ? (
+      {activeChallenges.filter((c) => c.category !== "Contests").length > 0 ? (
         <Card>
           <div className="flex items-center gap-2 mb-4">
             <div className="flex items-center gap-2">
               <Target className="text-orange-500" size={20} />
-              <h3 className="text-sm font-medium text-white">Active Challenges</h3>
+              <h3 className="text-sm font-medium text-white">
+                Active Challenges
+              </h3>
             </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {activeChallenges
-              .filter(challenge => challenge.category !== 'Contests')
-              .map(challenge => {
+              .filter((challenge) => challenge.category !== "Contests")
+              .map((challenge) => {
                 // Find full challenge details
-                const challengeDetails = challenges?.find(c => c.id === challenge.challenge_id);
                 const enrichedChallenge = {
                   ...challenge,
-                  isPremium: false
+                  isPremium: false,
                 };
-                
+
                 return (
                   <ChallengeCard
                     userId={userId}
@@ -136,21 +127,23 @@ export function ChallengeGrid({ userId, categoryScores }: ChallengeGridProps) {
           </div>
         </Card>
       )}
-      
+
       {/* Custom Challenge Card */}
       <CustomChallengeCard />
-      
+
       <div className="text-xs text-gray-400 italic text-center">
         Unlock More Challenges After Completion
       </div>
-      
+
       {/* Completed Challenges Section */}
       <Card>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-medium text-white flex items-center gap-2">
               <Award className="text-orange-500" size={16} />
-              <span>Completed Challenges ({completedActivities.challengesCompleted})</span>
+              <span>
+                Completed Challenges ({completedActivities.challengesCompleted})
+              </span>
             </h3>
           </div>
           <button
@@ -172,12 +165,10 @@ export function ChallengeGrid({ userId, categoryScores }: ChallengeGridProps) {
       {showLibrary && (
         <ChallengeLibrary
           userId={userId}
-          categoryScores={categoryScores}
-          recommendedChallenges={[]}
           hasCompletedTier0={hasCompletedTier0}
           currentChallenges={activeChallenges}
           onClose={() => setShowLibrary(false)}
-          onStartChallenge={startChallenge} 
+          onStartChallenge={startChallenge}
           activeChallengesCount={activeChallenges.length}
         />
       )}

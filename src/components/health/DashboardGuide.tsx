@@ -1,4 +1,3 @@
-import React from 'react';
 import { Heart, Activity, Rocket, Clock, Target, Trophy } from 'lucide-react';
 
 export function DashboardGuide() {

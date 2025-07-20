@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Award, Ban, CheckCircle2, Zap, Clock, Brain, Moon, Activity, Apple, Database } from 'lucide-react';
+import { Award, Ban, CheckCircle2, Zap, Brain, Moon, Activity, Apple, Database } from 'lucide-react';
 import { Card } from '../../ui/card';
 import { Progress } from '../../ui/progress';
 import { ChallengeCancelConfirm } from './ChallengeCancelConfirm';
-import type { Challenge, Quest } from '../../../types/dashboard';
+import type { Challenge } from '../../../types/dashboard';
 import { supabase } from '../../../lib/supabase';
 
 interface ChallengeCardProps {
@@ -17,7 +17,6 @@ export function ChallengeCard({ userId, challenge, onCancel }: ChallengeCardProp
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [completedToday, setCompletedToday] = useState(false);
   const navigate = useNavigate();
-  const isPremiumChallenge = challenge.isPremium;
   const isMorningBasics = challenge.challenge_id === 'mb0';
   
   // Get category icon

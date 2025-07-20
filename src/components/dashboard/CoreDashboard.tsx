@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Radio, Trophy, Rocket, AlertTriangle, X } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { scrollToSection } from "../../lib/utils";
-import { useCosmo } from "../../contexts/CosmoContext";
 import { TabNav } from "./TabNav";
 import { Card } from "../ui/card";
 import { CosmoChat } from "../cosmo/CosmoChat";
@@ -40,7 +39,6 @@ export function CoreDashboard() {
     showLevelUpModal,
     setShowLevelUpModal,
   } = usePlayerStats(user);
-  const { showCosmo } = useCosmo();
   const {
     selectedBoosts,
     weeklyBoosts,
@@ -48,7 +46,6 @@ export function CoreDashboard() {
     todayStats,
     daysUntilReset,
     completeBoost,
-    isLoading: boostLoading,
   } = useBoostState(user?.id);
 
   // Check if user has been inactive for more than 3 days
@@ -76,14 +73,6 @@ export function CoreDashboard() {
   }, [location.state]);
   // Listen for dashboard update events
   useEffect(() => {
-    const handleDashboardUpdate = () => {
-      try {
-        Promise.all([refreshData(), refreshStats()]);
-      } catch (err) {
-        console.error("Error updating dashboard:", err);
-      }
-    };
-
     const handleUpdate = (event: Event) => {
       // Refresh data when dashboard update event is triggered
       refreshData().catch(err => console.error("Error refreshing data:", err));
@@ -328,8 +317,6 @@ export function CoreDashboard() {
               <>
                 <ChallengeGrid
                   userId={user?.id}
-                  categoryScores={data.categoryScores}
-                  verificationRequirements={data.verificationRequirements}
                 />
 
                 <QuestCard

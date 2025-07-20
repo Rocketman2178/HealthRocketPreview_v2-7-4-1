@@ -4,6 +4,7 @@ import type { CategoryScores } from '../lib/health/types';
 import type { HealthAssessment } from '../types/health';
 import { DatabaseError } from '../lib/errors';
 import { calculateHealthScore } from '../lib/health/calculators/score';
+import { calculateNextLevelPoints } from '../lib/utils';
 
 interface HealthUpdateData {
   expectedLifespan: number;

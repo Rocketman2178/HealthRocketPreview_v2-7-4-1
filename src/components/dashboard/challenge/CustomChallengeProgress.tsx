@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Target, Zap, CheckCircle2, Calendar, X, Radio, Ban, ChevronRight, Clock } from 'lucide-react';
 import { useCustomChallenge } from '../../../hooks/useCustomChallenge';
@@ -24,18 +24,18 @@ export function CustomChallengeProgress() {
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   // Redirect if no challenge ID
-  React.useEffect(() => {
+  useEffect(() => {
     if (!challengeId) {
       navigate('/');
     }
-  }, [challengeId, navigate]);
+  }, [challengeId]);
 
   // Redirect if no active challenge
-  React.useEffect(() => {
+  useEffect(() => {
     if (!loading && (!hasActiveChallenge || !challenge)) {
       navigate('/');
     }
-  }, [loading, hasActiveChallenge, challenge, navigate]);
+  }, [loading, hasActiveChallenge, challenge]);
 
   const handleCancel = async () => {
     if (!challengeId) return;
@@ -45,7 +45,12 @@ export function CustomChallengeProgress() {
       navigate('/');
     }
   };
+const navigateToCompleteDailyCustomChallenge = (id:string|undefined)=>{
+  if(id){
 
+    navigate(`/custom-challenge/${id}/daily`)
+  }
+}
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900">
@@ -148,7 +153,7 @@ export function CustomChallengeProgress() {
             {canCompleteToday ? (
               <div className="mt-4">
                 <button
-                  onClick={() => navigate(`/custom-challenge/${challengeId}/daily`)}
+                  onClick={() => navigateToCompleteDailyCustomChallenge(challengeId)}
                   className="w-full px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2"
                 >
                   <span>Complete Today's Actions</span>

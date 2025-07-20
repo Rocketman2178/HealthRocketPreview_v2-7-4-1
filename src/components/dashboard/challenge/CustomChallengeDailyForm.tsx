@@ -32,14 +32,14 @@ export function CustomChallengeDailyForm() {
     if (!challengeId) {
       navigate('/');
     }
-  }, [challengeId, navigate]);
+  }, [challengeId]);
 
   // Redirect if challenge is not active or can't complete today
   useEffect(() => {
     if (!loading && (!challenge || challenge.status !== 'active' || !canCompleteToday)) {
       navigate(`/custom-challenge/${challengeId}`);
     }
-  }, [loading, challenge, canCompleteToday, challengeId, navigate]);
+  }, [loading, challenge, canCompleteToday, challengeId]);
 
   const handleToggleAction = (actionId: string) => {
     if (selectedActions.includes(actionId)) {
