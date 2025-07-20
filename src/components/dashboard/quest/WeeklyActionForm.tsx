@@ -33,11 +33,8 @@ export function WeeklyActionForm() {
   const [showFPCongrats, setShowFPCongrats] = useState(false);
   const [isQuestCompleted, setIsQuestCompleted] = useState(false);
   const [lastCompletionDate, setLastCompletionDate] = useState<string | null>(null);
-  
-  const actualQuestId = questId 
-
   useEffect(() => {
-    if (!actualQuestId || !user) {
+    if (!questId  || !user) {
       navigate('/', { replace: true });
       return;
     }
@@ -51,7 +48,7 @@ export function WeeklyActionForm() {
           'get_user_quest_weekly_progress',
           { 
             p_user_id: user.id,
-            p_quest_id: actualQuestId
+            p_quest_id: questId 
           }
         );
         
@@ -105,10 +102,10 @@ export function WeeklyActionForm() {
     };
     
     fetchQuestData();
-  }, [actualQuestId, user, navigate]);
+  }, [questId , user, navigate]);
   
   const handleSubmit = async () => {
-    if (!user || !actualQuestId || selectedActionIndex === null) return;
+    if (!user || !questId  || selectedActionIndex === null) return;
     
     try {
       setSubmitting(true);
@@ -119,7 +116,7 @@ export function WeeklyActionForm() {
         'complete_quest_weekly_action',
         {
           p_user_id: user.id,
-          p_quest_id: actualQuestId,
+          p_quest_id: questId ,
           p_week_number: weekNumber,
           p_selected_action_index: selectedActionIndex
         }
