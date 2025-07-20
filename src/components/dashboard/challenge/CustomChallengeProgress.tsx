@@ -13,7 +13,6 @@ export function CustomChallengeProgress() {
   const { user } = useSupabase();
   const { 
     loading, 
-    hasActiveChallenge, 
     challenge, 
     actions, 
     dailyCompletions, 
@@ -29,13 +28,6 @@ export function CustomChallengeProgress() {
       navigate('/');
     }
   }, [challengeId]);
-
-  // Redirect if no active challenge
-  useEffect(() => {
-    if (!loading && (!hasActiveChallenge || !challenge)) {
-      navigate('/');
-    }
-  }, [loading, hasActiveChallenge, challenge]);
 
   const handleCancel = async () => {
     if (!challengeId) return;

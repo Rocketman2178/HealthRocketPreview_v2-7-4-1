@@ -9,7 +9,7 @@ import type {
 } from "../types/customChallenge";
 
 export function useCustomChallenge(userId: string | undefined) {
-  const { user, session } = useSupabase();
+  const { session } = useSupabase();
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [completing, setCompleting] = useState(false);

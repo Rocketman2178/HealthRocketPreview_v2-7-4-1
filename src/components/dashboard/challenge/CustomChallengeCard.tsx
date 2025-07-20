@@ -41,6 +41,7 @@ export function CustomChallengeCard() {
         <div
           onClick={() => handleNavigateToCustomChallenge(challenge?.id)}
           aria-disabled={!challenge?.id}
+          tabIndex={challenge?.id ? 0 : -1}
           className={`${challenge?.id?"cursor-pointer":""} p-4 relative`}
         >
           <div className="flex items-center justify-between mb-3">
