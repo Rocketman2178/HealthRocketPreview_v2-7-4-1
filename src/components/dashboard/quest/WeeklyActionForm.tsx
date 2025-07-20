@@ -14,15 +14,9 @@ interface WeeklyAction {
   };
 }
 
-interface WeeklyActionFormProps {
-  questId?: string;
-  onComplete?: () => void;
-  onBack?: () => void;
-}
-
-export function WeeklyActionForm({ questId, onComplete, onBack }: WeeklyActionFormProps) {
+export function WeeklyActionForm() {
   const navigate = useNavigate();
-  const params = useParams();
+  const { questId } = useParams<{ questId: string }>();
   const { user } = useSupabase();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -30,7 +24,6 @@ export function WeeklyActionForm({ questId, onComplete, onBack }: WeeklyActionFo
   const [weeklyActions, setWeeklyActions] = useState<WeeklyAction[]>([]);
   const [selectedActionIndex, setSelectedActionIndex] = useState<number | null>(null);
   const [weekNumber, setWeekNumber] = useState<number>(1);
-  const [nextWeek, setNextWeek] = useState<number>(1);
   const [totalCompletedWeeks, setTotalCompletedWeeks] = useState<number>(0);
   const [canCompleteNextWeek, setCanCompleteNextWeek] = useState<boolean>(true);
   const [daysUntilNextWeek, setDaysUntilNextWeek] = useState<number | null>(null);
@@ -41,7 +34,7 @@ export function WeeklyActionForm({ questId, onComplete, onBack }: WeeklyActionFo
   const [isQuestCompleted, setIsQuestCompleted] = useState(false);
   const [lastCompletionDate, setLastCompletionDate] = useState<string | null>(null);
   
-  const actualQuestId = questId || params.questId;
+  const actualQuestId = questId 
 
   useEffect(() => {
     if (!actualQuestId || !user) {
@@ -72,7 +65,6 @@ export function WeeklyActionForm({ questId, onComplete, onBack }: WeeklyActionFo
         setWeeklyActions(data.quest.weekly_actions || []);
         setTotalCompletedWeeks(data.weekly_progress?.length || 0);
         const nextWeekNumber = data.next_week || 1;
-        setNextWeek(nextWeekNumber);
         setWeekNumber(nextWeekNumber);
         // Explicitly set canCompleteNextWeek based on the value from the server
         setCanCompleteNextWeek(data.can_complete_next_week === true); // Strict equality check
@@ -166,15 +158,6 @@ export function WeeklyActionForm({ questId, onComplete, onBack }: WeeklyActionFo
   // Handle closing the FP Congrats modal
   const handleCloseFPCongrats = () => {
     setShowFPCongrats(false);
-    // Navigate after closing the modal
-    if (onComplete) {
-      onComplete();
-    } else {
-      navigate('/', { 
-        replace: true, 
-        state: { fromWeekly: true }
-      });
-    }
   };
 
   if (loading) {

@@ -32,12 +32,6 @@ export function BoostCategory({
   const startOfWeek = new Date();
   startOfWeek.setHours(0, 0, 0, 0);
   startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-
-  // Filter boosts completed this week
-  const thisWeeksCompletedBoosts = completedBoosts.filter(boost => 
-    new Date(boost.completedAt) >= startOfWeek
-  );
-
   // Check if at least one tier 1 boost from each category is completed this week
   const categoriesWithCompletedTier1 = boostCategories.map(category => {
     const categoryTier1Boosts = category.boosts.filter(boost => boost.tier === 1);
@@ -68,8 +62,6 @@ export function BoostCategory({
   // Determine which boosts to show 
   const visibleBoosts = isExpanded ? allBoosts : allBoosts.slice(0, 3);
   const hasMoreBoosts = allBoosts.length > 3;
-  const safeWeeklyBoosts = weeklyBoosts || [];
-  const safeSelectedBoosts = selectedBoosts || [];
 
   return (
     <div className="space-y-2">

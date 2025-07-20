@@ -2,7 +2,7 @@ import { Card } from '../../ui/card';
 import { StreakProgress } from './StreakProgress';
 import { BoostCategory } from './BoostCategory';
 import { boostCategories } from '../../../data/boostCategories'; 
-import { calculateStreakInfo, calculateStreakBonus } from '../../../lib/utils';
+import { calculateStreakInfo } from '../../../lib/utils';
 import { BoostState, CompletedBoost } from '../../../types/dashboard';
 
 interface DailyBoostsProps {

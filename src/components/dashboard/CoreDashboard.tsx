@@ -87,10 +87,7 @@ export function CoreDashboard() {
         }
       }
 
-      // Check if a contest was registered
-      if (event instanceof CustomEvent && event.detail?.contestRegistered) {
-        console.log("Contest registered, refreshing dashboard");
-      }
+     
     };
 
     // Listen for setActiveTab events
